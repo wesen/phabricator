@@ -121,7 +121,12 @@ final class ConduitAPI_differential_getcommitmessage_Method
         }
       } else {
         if ($field_key === 'title') {
-          $commit_message[] = $value;
+          $title = $value;
+          if (array_key_exists("jira.issues", $aux_fields)) {
+	      $issueNumber = $aux_fields["jira.issues"]->renderValueForCommitMessage($is_edit);
+              $title = "{$issueNumber}: {$value}";
+          } 
+          $commit_message[] = $title; 
         } else {
           $value = str_replace(
             array("\r\n", "\r"),
